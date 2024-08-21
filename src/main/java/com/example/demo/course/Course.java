@@ -1,24 +1,43 @@
 package com.example.demo.course;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.SequenceGenerator;
+import jakarta.persistence.Table;
+
+@Entity
+@Table
 public class Course {
+    @Id
+    @SequenceGenerator(
+        name = "iitb_sequence",
+        sequenceName = "iitb_sequence",
+        allocationSize = 1
+    )
+    @GeneratedValue(
+        strategy = GenerationType.SEQUENCE,
+        generator = "iitb_sequence"
+    )
     private Long id;
     private String title;
     private String courseId;
-    private String desc;
+    private String description;
 
     public Course() {}
 
-    public Course(Long id, String title, String courseId, String desc){
+    public Course(Long id, String title, String courseId, String description){
         this.id = id;
         this.title = title;
         this.courseId = courseId;
-        this.desc = desc;
+        this.description = description;
     }
 
-    public Course(String title, String courseId, String desc){
+    public Course(String title, String courseId, String description){
         this.title = title;
         this.courseId = courseId;
-        this.desc = desc;
+        this.description = description;
     }
 
     public Long getId() {
@@ -45,12 +64,12 @@ public class Course {
         this.courseId = courseId;
     }
 
-    public String getDesc() {
-        return desc;
+    public String getDescription() {
+        return description;
     }
 
-    public void setDesc(String desc) {
-        this.desc = desc;
+    public void setDescription(String description) {
+        this.description = description;
     }
 }
 
