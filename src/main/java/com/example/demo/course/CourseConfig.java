@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class CourseConfig {
     @Bean
-    CommandLineRunner commandLineRunner(CourseRepository repository) {
+    CommandLineRunner CourseLineRunner(CourseRepository repository) {
         return args -> {
             Course CA = new Course(
                     "Introduction to Computer Architecture",

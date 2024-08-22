@@ -16,4 +16,22 @@ public class CourseService {
     public List<Course> getCourses(){
 		return courseRepository.findAll();
 	}
+
+	public Course getCourseById(Long id){
+		return courseRepository.findById(id).orElseThrow(() -> new IllegalStateException("Course with ID " + id + " not found"));
+	}
+
+	public void addNewCourse(Course course){
+		courseRepository.save(course);
+	}
+
+	public void deleteCourse(Long courseId){
+		boolean ex = courseRepository.existsById(courseId);
+		if ( !ex ){
+			throw new IllegalStateException("Course with id " + courseId + " non existent");
+		}
+		courseRepository.deleteById(courseId);
+	}
 }
+
+
