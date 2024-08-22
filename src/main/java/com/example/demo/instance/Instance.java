@@ -1,9 +1,13 @@
 package com.example.demo.instance;
 
+import com.example.demo.course.Course;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 
@@ -23,52 +27,58 @@ public class Instance {
     private Long id;
     private Integer year;
     private Integer sem;
-    private Long courseId;
+
+    @ManyToOne
+    @JoinColumn(name = "course_id", referencedColumnName = "courseId")
+    private Course course;
 
     public Instance(){}
 
-    public Instance(Long id, Integer year, Integer sem, Long courseId) {
+    public Instance(Long id, Integer year, Integer sem, Course course) {
         this.id = id;
         this.year = year;
         this.sem = sem;
-        this.courseId = courseId;
+        this.course = course;
     }
-    public Instance(Integer year, Integer sem, Long courseId) {
+    public Instance(Integer year, Integer sem, Course course) {
         this.year = year;
         this.sem = sem;
-        this.courseId = courseId;
+        this.course = course;
     }
+
     public Long getId() {
         return id;
     }
-    
+
     public void setId(Long id) {
         this.id = id;
     }
-    
+
     public Integer getYear() {
         return year;
     }
-    
+
     public void setYear(Integer year) {
         this.year = year;
     }
-    
+
     public Integer getSem() {
         return sem;
     }
-    
+
     public void setSem(Integer sem) {
         this.sem = sem;
     }
-    
-    public Long getCourseId() {
-        return courseId;
+
+    public Course getCourse() {
+        return course;
     }
-    
-    public void setCourseId(Long courseId) {    
-        this.courseId = courseId;
+
+    public void setCourse(Course course) {
+        this.course = course;
     }
+
+    
     
 }
     
