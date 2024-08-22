@@ -52,7 +52,7 @@ public class InstanceController {
     // } catch (ResourceNotFoundException e) {
     //     return ResponseEntity.notFound().build();
     // }
-            Course course = courseService.getCourseById(courseId);
+            // Course course = courseService.getCourseById(courseId);
         return instanceService.findInstanceByCourse(year, sem, courseId);
 
     }
