@@ -1,6 +1,8 @@
 package com.example.demo.instance;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -9,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.demo.ApiResponse;
 import com.example.demo.course.Course;
 import com.example.demo.course.CourseService;
 
@@ -27,42 +30,45 @@ public class InstanceController {
     }
 
     @PostMapping
-    public void addInstance(@RequestBody InstanceDTO instanceDTO) {//DTO = data transfer object
+    public ResponseEntity<ApiResponse<String>> addInstance(@RequestBody InstanceDTO instanceDTO) {//DTO = data transfer object
         Course course = courseService.getCourseById(instanceDTO.getCourseId());
         Instance instance = new Instance(instanceDTO.getYear(),instanceDTO.getSem(),course);
         instanceService.addNewInstance(instance);
+        ApiResponse<String> response = new ApiResponse<>(null, "Instance added successfully", HttpStatus.OK.value());
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @GetMapping("/{year}/{sem}")
-    public List<Instance> getInstance(
+    public ResponseEntity<ApiResponse<List<Instance>>> getInstance(
             @PathVariable Integer year,
             @PathVariable Integer sem) {
-        return instanceService.findInstance(year, sem);
-
+            List<Instance> instances = instanceService.findInstance(year, sem);
+            ApiResponse<List<Instance>> response = new ApiResponse<List<Instance>>(instances, "Instances fetched", HttpStatus.OK.value());
+            return new ResponseEntity<>(response, HttpStatus.OK);
     }
     @GetMapping("/{year}/{sem}/{courseId}")
-    public List<Instance> getInstanceWithCourse(
+    public ResponseEntity<ApiResponse<List<Instance>>> getInstanceWithCourse(
             @PathVariable Integer year,
             @PathVariable Integer sem,
             @PathVariable Long courseId) {
-    //             try {
-    //     Course course = courseService.getCourseById(courseId);
-    //     List<Instance> instances = instanceService.findInstanceByCourse(year, sem, courseId);
-    //     return ResponseEntity.ok(instances);
-    // } catch (ResourceNotFoundException e) {
-    //     return ResponseEntity.notFound().build();
-    // }
-            // Course course = courseService.getCourseById(courseId);
-        return instanceService.findInstanceByCourse(year, sem, courseId);
-
+        List<Instance> instances =  instanceService.findInstanceByCourse(year, sem, courseId);
+        ApiResponse<List<Instance>> response = new ApiResponse<List<Instance>>(instances, "Instances fetched", HttpStatus.OK.value());
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @DeleteMapping(path = "{year}/{sem}/{courseId}")
-    public void deleteInstance(
+    public ResponseEntity<ApiResponse<String>> deleteInstance(
             @PathVariable Integer year,
             @PathVariable Integer sem,
             @PathVariable Long courseId) {
-        instanceService.deleteInstance(year, sem, courseId);
+            try {
+                instanceService.deleteInstance(year, sem, courseId);
+                ApiResponse<String> response = new ApiResponse<String>(null, "Instances deleted successfully", HttpStatus.OK.value());
+                return new ResponseEntity<>(response, HttpStatus.OK);
+            } catch (IllegalStateException e) {
+                ApiResponse<String> response = new ApiResponse<>(null, e.getMessage(), HttpStatus.BAD_REQUEST.value());
+                return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+            }
     }
 
 }

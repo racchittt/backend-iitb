@@ -4,13 +4,17 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.demo.instance.InstanceRepository;
+
 @Service //adding a bean
 public class CourseService {
 	private final CourseRepository courseRepository;
+	private final InstanceRepository instanceRepository;
 
 	@Autowired
-	public CourseService(CourseRepository courseRepository) {
+	public CourseService(CourseRepository courseRepository, InstanceRepository instanceRepository) {
 		this.courseRepository = courseRepository;
+		this.instanceRepository = instanceRepository;
 	}
 
     public List<Course> getCourses(){
@@ -25,12 +29,13 @@ public class CourseService {
 		courseRepository.save(course);
 	}
 
-	public void deleteCourse(Long courseId){
-		boolean ex = courseRepository.existsById(courseId);
+	public void deleteCourse(Long Id){
+		boolean ex = courseRepository.existsById(Id);
 		if ( !ex ){
-			throw new IllegalStateException("Course with id " + courseId + " non existent");
+			throw new IllegalStateException("Course with id " + Id + " non existent");
 		}
-		courseRepository.deleteById(courseId);
+		instanceRepository.deleteInstanceByCourse(Id);
+		courseRepository.deleteById(Id);
 	}
 }
 

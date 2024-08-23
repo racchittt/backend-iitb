@@ -21,4 +21,9 @@ public interface InstanceRepository extends JpaRepository<Instance, Long>{
     @Modifying
     @Query(value = "DELETE FROM INSTANCE WHERE year = ?1 AND sem = ?2 AND course_id = ?3", nativeQuery = true)
     int deleteInstance(Integer year, Integer sem, Long course);
+   
+    @Transactional
+    @Modifying
+    @Query(value = "DELETE FROM INSTANCE WHERE course_id = ?1", nativeQuery = true)
+    int deleteInstanceByCourse(Long course);
 }

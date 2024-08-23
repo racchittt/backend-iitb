@@ -17,18 +17,18 @@ public class InstanceConfig {
         return args -> {
             Course courseAC = courseRepository.findByCourseId(1L)
                 .orElseGet(() -> {
-                    Course newCourse = new Course("Algorithms and Complexity", 1L, "Study of algorithms and their complexities.");
+                    Course newCourse = new Course("Algorithms and Complexity", "CS 302", "Study of algorithms and their complexities.");
                     return courseRepository.save(newCourse);
             });
             Course courseDS = courseRepository.findByCourseId(2L)
                 .orElseGet(() -> {
-                    Course newCourse = new Course("Data Structures", 2L, "Study of data structures.");
+                    Course newCourse = new Course("Data Structures", "CS 304", "Study of data structures.");
                     return courseRepository.save(newCourse);
             });
 
             Course courseOS = courseRepository.findByCourseId(3L)
                 .orElseGet(() -> {
-                    Course newCourse = new Course("Operating Systems", 3L, "Study of operating systems.");
+                    Course newCourse = new Course("Operating Systems", "CS 203", "Study of operating systems.");
                     return courseRepository.save(newCourse);
             });
             Instance AC = new Instance(2024, 1, courseAC);

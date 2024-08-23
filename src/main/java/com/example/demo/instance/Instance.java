@@ -29,7 +29,7 @@ public class Instance {
     private Integer sem;
 
     @ManyToOne
-    @JoinColumn(name = "course_id", referencedColumnName = "courseId")
+    @JoinColumn(name = "course_id", referencedColumnName = "id")
     private Course course;
 
     public Instance(){}

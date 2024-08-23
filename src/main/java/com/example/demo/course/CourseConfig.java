@@ -12,11 +12,11 @@ public class CourseConfig {
         return args -> {
             Course CA = new Course(
                     "Introduction to Computer Architecture",
-                    1L,
+                    "CS 101",
                     "This course provides a basic introduction to the architecture and algorithms of computer systems");
             Course DSA = new Course(
                     "Data Structures and Algorithms",
-                    2L,
+                    "CS 102",
                     "This course covers fundamental data structures and algorithms with a focus on efficiency and performance");
             repository.saveAll(List.of(CA,DSA));
 
