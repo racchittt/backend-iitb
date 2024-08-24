@@ -13,9 +13,12 @@ import java.util.*;
 public interface InstanceRepository extends JpaRepository<Instance, Long>{
     @Query(value = "SELECT * FROM INSTANCE WHERE year = ?1 AND sem = ?2", nativeQuery = true)
     List<Instance> findByYearAndSem(Integer year, Integer sem);
+    
+    @Query(value = "SELECT * FROM INSTANCE WHERE year = ?1", nativeQuery = true)
+    List<Instance> findByYear(Integer year);
 
     @Query(value = "SELECT * FROM INSTANCE WHERE year = ?1 AND sem = ?2 AND course_id = ?3", nativeQuery = true)
-    List<Instance> findByYearAndSemAndCourseId(Integer year, Integer sem, Long course);
+    Instance findByYearAndSemAndCourseId(Integer year, Integer sem, Long course);
 
     @Transactional
     @Modifying

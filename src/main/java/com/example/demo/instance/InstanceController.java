@@ -38,6 +38,30 @@ public class InstanceController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    @GetMapping
+    public ResponseEntity<ApiResponse<List<Instance>>> getInstances(){
+            List<Instance> instances = instanceService.getInstances();
+            ApiResponse<List<Instance>> response = new ApiResponse<List<Instance>>(instances, "Instances fetched", HttpStatus.OK.value());
+            return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+    @GetMapping("/{year}")
+    public ResponseEntity<ApiResponse<List<Instance>>> getInstancesByYear(@PathVariable Integer year){
+        try {
+            List<Instance> instances = instanceService.getInstancesByYear(year);
+            if(!instances.isEmpty()){
+                ApiResponse<List<Instance>> response = new ApiResponse<List<Instance>>(instances, "Instances fetched", HttpStatus.OK.value());
+                return new ResponseEntity<>(response, HttpStatus.OK);
+            }
+            else{
+                ApiResponse<List<Instance>> response = new ApiResponse<>(null, "Instance with year not found", HttpStatus.NOT_FOUND.value());
+                return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+            }
+        } catch (IllegalStateException e) {
+            ApiResponse<List<Instance>> response = new ApiResponse<>(null, "Instance with year not found", HttpStatus.BAD_REQUEST.value());
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        }
+            
+    }
     @GetMapping("/{year}/{sem}")
     public ResponseEntity<ApiResponse<List<Instance>>> getInstance(
             @PathVariable Integer year,
@@ -47,12 +71,12 @@ public class InstanceController {
             return new ResponseEntity<>(response, HttpStatus.OK);
     }
     @GetMapping("/{year}/{sem}/{courseId}")
-    public ResponseEntity<ApiResponse<List<Instance>>> getInstanceWithCourse(
+    public ResponseEntity<ApiResponse<Instance>> getInstanceWithCourse(
             @PathVariable Integer year,
             @PathVariable Integer sem,
             @PathVariable Long courseId) {
-        List<Instance> instances =  instanceService.findInstanceByCourse(year, sem, courseId);
-        ApiResponse<List<Instance>> response = new ApiResponse<List<Instance>>(instances, "Instances fetched", HttpStatus.OK.value());
+        Instance instances =  instanceService.findInstanceByCourse(year, sem, courseId);
+        ApiResponse<Instance> response = new ApiResponse<Instance>(instances, "Instance fetched", HttpStatus.OK.value());
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 

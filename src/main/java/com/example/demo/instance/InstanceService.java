@@ -11,11 +11,17 @@ public class InstanceService {
     @Autowired
     private InstanceRepository instanceRepository;
 
+    public List<Instance> getInstances() {
+        return instanceRepository.findAll();
+    }
+    public List<Instance> getInstancesByYear(Integer Year) {
+        return instanceRepository.findByYear(Year);
+    }
     public List<Instance> findInstance(Integer year, Integer sem) {
         return instanceRepository.findByYearAndSem(year, sem);
     }
 
-    public List<Instance> findInstanceByCourse(Integer year, Integer sem, Long courseId) {
+    public Instance findInstanceByCourse(Integer year, Integer sem, Long courseId) {
         return instanceRepository.findByYearAndSemAndCourseId(year, sem, courseId);
     }
 
