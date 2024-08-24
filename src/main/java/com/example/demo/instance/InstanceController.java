@@ -87,7 +87,7 @@ public class InstanceController {
             @PathVariable Long courseId) {
             try {
                 instanceService.deleteInstance(year, sem, courseId);
-                ApiResponse<String> response = new ApiResponse<String>(null, "Instances deleted successfully", HttpStatus.OK.value());
+                ApiResponse<String> response = new ApiResponse<String>(null, "Instance deleted successfully", HttpStatus.OK.value());
                 return new ResponseEntity<>(response, HttpStatus.OK);
             } catch (IllegalStateException e) {
                 ApiResponse<String> response = new ApiResponse<>(null, e.getMessage(), HttpStatus.BAD_REQUEST.value());

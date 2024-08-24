@@ -1,5 +1,6 @@
 package com.example.demo.course;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -23,6 +24,8 @@ public class Course {
     private Long id;
     private String title;
     private String courseId;
+    
+    @Column(length = 10000)
     private String description;
 
     public Course() {}
